@@ -1,5 +1,11 @@
 'use strict';
 
+const serverConfig = require('./config/server');
+
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.level = 'debug';
+
 const os = require('os');
 const process = require('process');
 const express = require('express');
@@ -10,12 +16,12 @@ redis.RedisClient.prototype.incrAsync = util.promisify(redis.RedisClient.prototy
 
 const client = redis.createClient();
 client.on('error', err => {
-  console.error('Error: ' + err);
+  logger.error(err);
 });
 
 const app = express();
 
-app.get('/', async (req, res) => {
+app.get('/', async(req, res) => {
   try {
     const visits = await client.incrAsync('counter');
 
@@ -33,7 +39,7 @@ app.get('/', async (req, res) => {
     })
   }
   catch (e) {
-    console.error(e);
+    logger.error(e);
 
     res.json({
       error: 1,
@@ -42,6 +48,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.listen(80, '0.0.0.0', () => {
-  console.log('Listened on 0.0.0.0:80');
+app.listen(serverConfig.port, serverConfig.host, () => {
+  logger.info(`Listened on ${serverConfig.host}:${serverConfig.port}`);
 });
