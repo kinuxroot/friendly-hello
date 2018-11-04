@@ -42,6 +42,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.listen(5000, '0.0.0.0', () => {
-  console.log('Listened on 0.0.0.0:5000');
+app.listen(80, '0.0.0.0', () => {
+  console.log('Listened on 0.0.0.0:80');
 });
