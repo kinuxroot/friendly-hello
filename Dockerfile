@@ -2,7 +2,7 @@ FROM node:10.13.0-alpine
 
 WORKDIR /app
 
-COPY ./config /app
+ADD ./config /app/config
 COPY ./index.js /app
 COPY ./package.json /app
 
